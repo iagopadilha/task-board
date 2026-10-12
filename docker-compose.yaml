@@ -1,0 +1,19 @@
+services:
+  db:
+    image: postgres:18
+    restart: always
+    environment: # atraves disso injetamos variaveis iniciais no programa
+      - POSTGRES_PASSWORD=${PGS_DB_PASSWORD} # podemos usar: valor ou assim para pegar do env value mas funciona com ambos
+    volumes:
+    - pgdata:/var/lib/postgresql # esqerda é onde ficará no nosso pc com esse nome - direita é onde o docker por padrão salva seus dados do banco etc.
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U: postgres",] # escolhe o terminal padrão que tem no container e vai testando postgres (is ready padrao docker para pingar) - adicionado usuario root que e postgres
+      interval: 1s
+      timeout: 5s
+      retries: 10
+    ports: 
+      - "5433:5432"
+
+# formally saying that we'll have a volume to docker
+volumes: 
+  pgdata:

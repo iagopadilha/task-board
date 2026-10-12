@@ -1,0 +1,24 @@
+# Segredos / ambiente local
+.env
+.env.*
+!.env.example
+
+# Specs e contexto local (nao versionar)
+.specs/
+PROJECT_CONTEXT.md
+
+# Node / frontend (a ser criado)
+node_modules/
+dist/
+coverage/
+
+# Playwright (e2e, a ser criado)
+playwright-report/
+test-results/
+
+# IDEs / SO
+.vs/
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
