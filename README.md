@@ -59,7 +59,16 @@ task-board/
 - [x] Postgres via Docker Compose
 - [x] `AppDbContext` com Npgsql + snake_case
 - [x] Migration inicial (`FirstMigration`)
-- [ ] Autenticação (JWT / OpenIddict + OAuth2)
+- [ ] Autenticação com OpenIddict + OAuth2 (email e senha, authorization code + PKCE)
+  - [ ] Pacotes `OpenIddict.AspNetCore` e `OpenIddict.EntityFrameworkCore`, `UseOpenIddict()` no `AppDbContext`
+  - [ ] Migration das tabelas do OpenIddict (applications, authorizations, scopes, tokens)
+  - [ ] `AddOpenIddict()` (core, server, validation) e endpoint `/connect/token`
+  - [ ] Seed do client da aplicação React e chaves de assinatura
+- [ ] Login social (Google e Microsoft)
+  - [ ] Registrar apps no Google Cloud Console e no Microsoft Entra (segredos em user-secrets)
+  - [ ] `OpenIddict.Client.WebIntegration` com fluxo conduzido pelo back
+  - [ ] `PasswordHash` opcional no `User` + tabela `ExternalLogin` (provider, id externo, userId)
+  - [ ] Redirect final para o front após o callback (depende do frontend)
 - [ ] Testes de unidade (C#)
 - [ ] Testes de integração (WebApplicationFactory + Testcontainers)
 - [ ] Frontend React + Vite + TS
