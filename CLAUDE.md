@@ -59,3 +59,10 @@ Ao concluir uma etapa, marcar o item na seção **Status atual** do `README.md` 
 ## Git
 
 Commits pequenos e atômicos, mensagens em inglês no formato Conventional Commits (`feat:`, `fix:`, `docs:`, `chore:`).
+
+### Fluxo de branches
+
+- Branch padrão de trabalho é **`developer`**. Todo commit e push vai primeiro para ela.
+- **Nunca** commitar nem dar push direto na `main`.
+- Para levar mudanças à `main`, abrir **Pull Request `developer` → `main`** (`gh pr create --base main --head developer`).
+- Se a `developer` não existir, criar a partir da `main` antes de começar.
