@@ -1,6 +1,7 @@
-﻿using TaskBoard.Api.Data;
-using TaskBoard.Api.Endpoints;
+﻿using Microsoft.OpenApi.Models;
+using TaskBoard.Api.Data;
 using TaskBoard.Api.Middleware;
+using TaskBoard.Api.Security;
 
 namespace TaskBoard.Api.ExtensionMethods;
 
@@ -9,7 +10,24 @@ public static class ApiConfigExthension
     public static void AddPreApiConfig(this WebApplicationBuilder builder)
     {
         builder.Services.AddEndpointsApiExplorer();
-        builder.Services.AddSwaggerGen();
+        builder.Services.AddSwaggerGen(options =>
+        {
+            // Placeholder auth: lets Swagger UI send the X-User-Id header on every request (Authorize button).
+            options.AddSecurityDefinition("UserId", new OpenApiSecurityScheme
+            {
+                Name = HeaderCurrentUser.HeaderName,
+                In = ParameterLocation.Header,
+                Type = SecuritySchemeType.ApiKey,
+                Description = "Id (Guid) of the calling user."
+            });
+            options.AddSecurityRequirement(new OpenApiSecurityRequirement
+            {
+                [new OpenApiSecurityScheme
+                {
+                    Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "UserId" }
+                }] = []
+            });
+        });
 
         builder.Services.AddProblemDetails();
         builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
