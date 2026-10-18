@@ -1,6 +1,6 @@
 # CLAUDE.md
 
-Projeto de estudo: mini Kanban para praticar a pirâmide de testes, OpenIddict e OAuth2. Detalhes em `README.md`.
+Projeto de estudo: mini Kanban para praticar a **pirâmide de testes** (começando bare-hand e evoluindo para bibliotecas) e **autenticação simples com BCrypt** (aplicando o padrão de hashing). Detalhes em `README.md`.
 
 ## Idioma
 
@@ -11,6 +11,7 @@ Responder no idioma do usuário (português ou inglês). Código, nomes e commit
 - Backend: ASP.NET Core .NET 8, Minimal API, em `backend/TaskBoard.Api`
 - Banco: PostgreSQL 18 via `docker-compose.yaml` (porta host 5433)
 - ORM: EF Core 8 Code First, Npgsql, snake_case (`UseSnakeCaseNamingConvention`)
+- Auth: Autenticação simples (email/senha) com BCrypt (`IPasswordHasher`) e JWT
 - Frontend (a criar): React + Vite + TypeScript
 
 ## Comandos
@@ -43,9 +44,9 @@ Projeto único `TaskBoard.Api`, organizado por pastas:
 - Datas em UTC (`timestamptz` no Npgsql só aceita UTC).
 - Regras que precisam do banco (ex.: limite de 5 tarefas `InProgress` por usuário) ficam no service, não na entidade.
 
-## Divisão de trabalho
+## Divisão de trabalho e estratégia
 
-O Iago faz os testes e a autenticação. **Não criar projetos de teste nem frameworks de teste** sem pedido explícito. Foco da base: domínio, API, banco.
+O Iago conduz os testes (começando **bare-hand** para fixar os fundamentos antes de adicionar libs como Moq/FluentAssertions/Testcontainers) e a autenticação simples com BCrypt (aplicando o padrão de hashing via `IPasswordHasher`). **Não criar projetos de teste nem frameworks de teste** sem pedido explícito. Foco da base: domínio, API, banco e suporte pedagógico.
 
 ## Segredos e arquivos locais
 

@@ -3,7 +3,7 @@ services:
     image: postgres:18
     restart: always
     environment: # atraves disso injetamos variaveis iniciais no programa
-      - POSTGRES_PASSWORD=${PGS_DB_PASSWORD} # podemos usar: valor ou assim para pegar do env value mas funciona com ambos
+      - POSTGRES_PASSWORD=${PGS_DB_PASSWORD} # podemos usar: valor ou assim para pegar do env value mas funciona com ambos - env so lido em docker compose
     volumes:
     - pgdata:/var/lib/postgresql # esqerda é onde ficará no nosso pc com esse nome - direita é onde o docker por padrão salva seus dados do banco etc.
     healthcheck:
