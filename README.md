@@ -1,7 +1,7 @@
 # task-board
 
-Projeto de estudo para aplicar os conceitos da **pirâmide de testes** + **OpenIddict e OAuth2**.
-É um mini Kanban (boards e tarefas) com regra de negócio, banco e UI suficientes para exercitar unit, integração e E2E.
+Projeto de estudo para aplicar os conceitos da **pirâmide de testes** + **autenticação simples com BCrypt (padrão de hashing)**.
+É um mini Kanban (boards e tarefas) com regra de negócio, banco e UI suficientes para exercitar testes de unidade, integração e E2E — começando **bare-hand** (sem bibliotecas auxiliares, testando e mockando na mão para dominar os fundamentos) e depois evoluindo para bibliotecas do ecossistema.
 
 ## Stack
 
@@ -10,8 +10,9 @@ Projeto de estudo para aplicar os conceitos da **pirâmide de testes** + **OpenI
 | Backend | ASP.NET Core **.NET 8**, Minimal API |
 | Banco | PostgreSQL 18 (Docker) |
 | ORM | EF Core 8 Code First + Migrations, snake_case (`EFCore.NamingConventions`) |
+| Auth | Autenticação simples (Email/Senha) + **BCrypt** (padrão de hashing e salting) + JWT |
 | Frontend | React + Vite + TypeScript (a criar) |
-| Testes | xUnit, Moq, FluentAssertions, Testcontainers, Vitest, React Testing Library, MSW, Playwright (a criar) |
+| Testes | Bare-hand primeiro → xUnit, Moq, FluentAssertions, Testcontainers, Vitest, React Testing Library, MSW, Playwright |
 
 ## Como rodar
 
@@ -37,9 +38,9 @@ A connection string de desenvolvimento fica em `backend/TaskBoard.Api/appsetting
 ```
 task-board/
 ├── backend/
-│   └── TaskBoard.Api/     # Domain, Data, Services, Repositories, Endpoints, Middleware
+│   └── TaskBoard.Api/     # Domain, Data, Services, Repositories, Endpoints, Middleware, Security
 ├── docker-compose.yaml    # Postgres
-├── CLAUDE.md              # instrucoes para o Claude Code
+├── CLAUDE.md              # instrucoes para o agente
 └── README.md
 ```
 
@@ -50,6 +51,16 @@ task-board/
 - `InProgress` exige responsável; máximo de 5 tarefas `InProgress` por usuário (limite WIP).
 - Só o dono do board exclui; tarefa `InProgress` não pode ser excluída.
 
+## Estratégia de estudo
+
+1. **Autenticação simples e Hashing (BCrypt)**
+   - Aplicar o padrão de hashing (`IPasswordHasher`) isolando a criptografia do domínio/serviços.
+   - Entender e aplicar **BCrypt** (salt embutido, work factor/cost, verificação segura `Verify` contra timing/brute-force).
+   - Fluxo direto de registro (`POST /api/auth/register` ou criação de usuário com senha) e login (`POST /api/auth/login`).
+2. **Pirâmide de Testes (Bare-hand → Libraries)**
+   - **Fase 1 (Bare-hand):** testar regras de domínio e serviços construindo asserts, fakes/stubs manuais e cenários sem depender de bibliotecas de mock/assertion para entender o que acontece por baixo dos panos.
+   - **Fase 2 (Com bibliotecas):** introduzir gradualmente `FluentAssertions`, `Moq`/`NSubstitute`, `WebApplicationFactory` + `Testcontainers` (integração com Postgres real), e no frontend `Vitest`, `RTL`, `MSW` e `Playwright` (E2E).
+
 ## Status atual
 
 > Atualize esta seção a cada etapa concluída.
@@ -59,22 +70,18 @@ task-board/
 - [x] Postgres via Docker Compose
 - [x] `AppDbContext` com Npgsql + snake_case
 - [x] Migration inicial (`FirstMigration`)
-- [ ] Autenticação com OpenIddict + OAuth2 (email e senha, authorization code + PKCE)
-  - [ ] Pacotes `OpenIddict.AspNetCore` e `OpenIddict.EntityFrameworkCore`, `UseOpenIddict()` no `AppDbContext`
-  - [ ] Migration das tabelas do OpenIddict (applications, authorizations, scopes, tokens)
-  - [ ] `AddOpenIddict()` (core, server, validation) e endpoint `/connect/token`
-  - [ ] Seed do client da aplicação React e chaves de assinatura
-- [ ] Login social (Google e Microsoft)
-  - [ ] Registrar apps no Google Cloud Console e no Microsoft Entra (segredos em user-secrets)
-  - [ ] `OpenIddict.Client.WebIntegration` com fluxo conduzido pelo back
-  - [ ] `PasswordHash` opcional no `User` + tabela `ExternalLogin` (provider, id externo, userId)
-  - [ ] Redirect final para o front após o callback (depende do frontend)
-- [ ] Testes de unidade (C#)
-- [ ] Testes de integração (WebApplicationFactory + Testcontainers)
+- [ ] Autenticação simples com BCrypt (padrão de hashing)
+  - [ ] Abstração de hashing (`IPasswordHasher`) e implementação com BCrypt (`Hash` e `Verify`)
+  - [ ] Registro de usuário recebendo senha em texto plano, validando política mínima e salvando `PasswordHash`
+  - [ ] Endpoint de login validando credenciais com BCrypt e autenticando requisições (`ICurrentUser`)
+- [ ] Testes de unidade no Backend (C#)
+  - [ ] Fase bare-hand (asserts puros e fakes/mocks manuais)
+  - [ ] Evolução com libs (`Moq`, `FluentAssertions`)
+- [ ] Testes de integração no Backend (`WebApplicationFactory` + `Testcontainers`)
 - [ ] Frontend React + Vite + TS
-- [ ] Testes de frontend (Vitest, RTL, MSW)
-- [ ] Testes E2E (Playwright)
+- [ ] Testes de frontend (`Vitest`, `React Testing Library`, `MSW`)
+- [ ] Testes E2E (`Playwright`)
 
 ## Em andamento
 
-- Versionamento no GitHub e documentação do projeto.
+- Ajustando documentação e preparando base para autenticação simples com BCrypt e primeiros testes bare-hand.

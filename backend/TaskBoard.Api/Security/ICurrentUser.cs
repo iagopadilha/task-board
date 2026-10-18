@@ -10,7 +10,7 @@ public interface ICurrentUser
 
 /// <summary>
 /// PLACEHOLDER, not authentication: trusts the X-User-Id header so the owner/assignee rules can run.
-/// Replace with an implementation backed by the validated token claims once OAuth/OIDC is in place.
+/// Replace with an implementation backed by validated token claims once simple BCrypt/JWT auth is in place.
 /// </summary>
 public class HeaderCurrentUser(IHttpContextAccessor accessor) : ICurrentUser
 {
