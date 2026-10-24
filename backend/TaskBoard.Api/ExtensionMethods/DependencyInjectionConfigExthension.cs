@@ -11,6 +11,7 @@ public static class DependencyInjectionConfigExthension
 
         // PLACEHOLDER: swap for a claims-based ICurrentUser when auth is added.
         serviceConfig.AddScoped<ICurrentUser, HeaderCurrentUser>();
+        serviceConfig.AddSingleton<ITokenGeneratorService, TokenGeneratorService>();
 
         serviceConfig.AddScoped<IUserRepository, UserRepository>();
         serviceConfig.AddScoped<IBoardRepository, BoardRepository>();
