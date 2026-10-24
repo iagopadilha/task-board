@@ -4,7 +4,11 @@ using TaskBoard.Api.Domain.Enums;
 namespace TaskBoard.Api.Dtos;
 
 // ---- Requests ----
-public record CreateUserRequest(string Name, string Email);
+public record CreateUserRequest(string Name, string Email, string password);
+
+public record CreateLoginDto(string email, string password);
+
+public record ReturnLogin(string jwtAcessToken);
 
 public record CreateBoardRequest(string Name);
 

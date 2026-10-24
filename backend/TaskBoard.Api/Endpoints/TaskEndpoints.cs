@@ -7,9 +7,9 @@ namespace TaskBoard.Api.Endpoints;
 
 public static class TaskEndpoints
 {
-    public static IEndpointRouteBuilder MapTaskEndpoints(this IEndpointRouteBuilder app) // rodamos com typed results pq retorna tipado e tipa no swagger tambem
+    public static IEndpointRouteBuilder MapTaskEndpoints(this IEndpointRouteBuilder app) // Using TypedResults for strongly-typed responses and automatic Swagger documentation
     {
-        // TODO(auth): add .RequireAuthorization() on this group.
+
         var api = app.MapGroup("/api").WithTags("Tasks");
 
         api.MapGet("/boards/{boardId:guid}/tasks",
