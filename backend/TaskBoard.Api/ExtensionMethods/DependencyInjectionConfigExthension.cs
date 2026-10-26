@@ -1,4 +1,4 @@
-﻿using TaskBoard.Api.Repositories;
+using TaskBoard.Api.Repositories;
 using TaskBoard.Api.Security;
 using TaskBoard.Api.Services;
 
@@ -8,9 +8,7 @@ public static class DependencyInjectionConfigExthension
 {
     public static void AddDependencyInjectionConfig(this IServiceCollection serviceConfig)
     {
-
-        // PLACEHOLDER: swap for a claims-based ICurrentUser when auth is added.
-        serviceConfig.AddScoped<ICurrentUser, HeaderCurrentUser>();
+        serviceConfig.AddScoped<ICurrentUser, CurrentUser>();
         serviceConfig.AddSingleton<ITokenGeneratorService, TokenGeneratorService>();
 
         serviceConfig.AddScoped<IUserRepository, UserRepository>();

@@ -14,7 +14,7 @@ public static class UserEndpoints
         {
             var user = await users.CreateAsync(request);
             return TypedResults.Created($"/api/users/{user.Id}", user);
-        });
+        }).AllowAnonymous();
 
 
         // [Authorize(AuthenticationSchemes = "FirebaseJwt")] Example of requiring a specific authentication scheme
@@ -37,4 +37,3 @@ public static class UserEndpoints
         return app;
     }
 }
-    

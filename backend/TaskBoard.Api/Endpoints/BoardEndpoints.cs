@@ -12,7 +12,12 @@ public static class BoardEndpoints
         var group = app.MapGroup("/api/boards").WithTags("Boards");
 
         group.MapGet("/", async (ICurrentUser user, IBoardService boards) =>
-            TypedResults.Ok(await boards.ListAsync(user.UserId)));
+        {
+            var testPermissions = user.UserPermissions;
+            var testRole = user.UserRole;
+
+            return TypedResults.Ok(await boards.ListAsync(user.UserId));
+        });
 
         group.MapPost("/", async (CreateBoardRequest request, ICurrentUser user, IBoardService boards) =>
         {

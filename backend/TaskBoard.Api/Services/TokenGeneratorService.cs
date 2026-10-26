@@ -28,6 +28,9 @@ public class TokenGeneratorService(IOptions<JwtSettings> jwtOptions) : ITokenGen
                 new Claim(JwtRegisteredClaimNames.Sub, id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, email),
                 new Claim(JwtRegisteredClaimNames.Name, name),
+                new Claim(ClaimTypes.Role, "board_admin"), // we can also add many admins and many permissions
+                new Claim("permission", "acess_board"),
+                new Claim("permission", "manage_board"),
             ]),
             Expires = DateTime.UtcNow.AddMinutes(60),
             SigningCredentials = credentials,

@@ -1,4 +1,3 @@
-using BCrypt.Net;
 using TaskBoard.Api.Domain.Exceptions;
 
 namespace TaskBoard.Api.Domain;
